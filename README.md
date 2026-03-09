@@ -1,6 +1,6 @@
 # 📅 EventosPro
 
-> **Link do projeto online:** [Acesse aqui o EventosPro](https://https://eventospro.onrender.com/)
+> **Link do projeto online:** [Acesse aqui o EventosPro](https://eventospro.onrender.com/)
 
 O **EventosPro** é uma plataforma completa para descoberta e gestão de eventos. O projeto foi desenvolvido para demonstrar habilidades em **Node.js**, **EJS** e **Tailwind CSS**, focando em uma experiência de usuário (UX) fluida e moderna.
 
