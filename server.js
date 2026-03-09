@@ -1,0 +1,41 @@
+const express = require('express');
+const app = express();
+const path = require('path');
+
+app.set('view engine', 'ejs'); 
+app.use(express.static('public'));
+
+const eventos = [
+    { id: 1, titulo: 'Festival de Música ao Vivo', categoria: 'Música', preco: '89,90', data: '14/04/2026', local: 'Parque Ibirapuera', vagas: '342/500', img: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80', descricao: 'Um festival incrível com bandas locais e nacionais. Venha curtir uma noite de muita música e diversão.', tags: ['música', 'festival', 'aovivo'] },
+    { id: 2, titulo: 'Workshop de Design UI/UX', categoria: 'Workshop', preco: '150,00', data: '24/03/2026', local: 'Centro de Convenções', vagas: '65/80', img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80', descricao: 'Aprenda as melhores práticas de design de interfaces com profissionais experientes. Inclui certificado de participação.', tags: ['design', 'carreira', 'tech'] },
+    { id: 3, titulo: 'Maratona de Programação', categoria: 'Tecnologia', preco: '0,00', data: '09/05/2026', local: 'Google Campus', vagas: '178/200', gratis: true, img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80', descricao: 'Hackathon de 48h para desenvolvedores. Forme equipes, resolva desafios e concorra a prêmios incríveis!', tags: ['programação', 'hackathon', 'tecnologia'] },
+    { id: 4, titulo: 'Feira Gastronomica Internacional', categoria: 'Gastronomia', preco: '25,00', data: '01/04/2026', local: 'Praça da liberdade', vagas: '723/1000', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80', descricao: 'Sabores do mundo inteiro em um só lugar. Mais de 50 restaurantes e food trucks com culinária de diversos países.', tags: ['gastronomia', 'comida', 'internacional'] }
+];
+
+app.get('/', (req, res) => {
+    res.render('index', { eventos });
+});
+
+app.get('/evento/:id', (req, res) => {
+    const eventoId = req.params.id;
+    
+    const evento = eventos.find(e => e.id == eventoId) || eventos[0]; 
+    res.render('detalhes', { evento });
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.get('/registro', (req, res) => {
+    res.render('registro');
+});
+
+app.get('/dashboard-participante', (req, res) => res.render('dash-participante'));
+app.get('/dashboard-organizador', (req, res) => res.render('dash-organizador'));
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});

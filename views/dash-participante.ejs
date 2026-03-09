@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Ingressos | EventosPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-50 font-sans min-h-screen">
+
+    <nav class="flex justify-between items-center px-8 py-4 bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="text-2xl font-bold flex items-center gap-2 cursor-pointer" onclick="window.location='/'">
+            <span class="p-1.5 bg-orange-600 rounded-xl text-white text-sm">📅</span> 
+            <span class="tracking-tight text-gray-900">EventosPro</span>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <div class="hidden md:flex items-center gap-6 text-sm font-bold text-gray-500 mr-4">
+                <a href="/" class="flex items-center gap-2 hover:text-orange-600 transition-colors">
+                    <span>🏠</span> Explorar
+                </a>
+                <a href="/dashboard-participante" class="flex items-center gap-2 text-orange-600 bg-orange-50 px-4 py-2 rounded-xl">
+                    <span>🎫</span> Meus Ingressos
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-2xl border border-gray-100">
+                <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-sm">👤</div>
+                <span id="userNameDisplay" class="font-bold text-gray-700 text-sm"></span>
+            </div>
+
+            <button onclick="logout()" class="flex items-center gap-2 text-gray-400 font-bold hover:text-red-500 transition-colors text-sm">
+                <span>🚪</span> Sair
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-8 py-10 animate__animated animate__fadeIn">
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+            <div>
+                <h1 class="text-4xl font-black text-gray-900 tracking-tight">Olá, <span id="orangeName" class="text-orange-600">!</span></h1>
+                <p class="text-gray-500 font-medium">Prepare-se para suas próximas experiências.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 flex gap-10">
+                <div class="text-center">
+                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Inscrições</p>
+                    <p class="text-3xl font-black text-orange-600">04</p>
+                </div>
+                <div class="text-center border-l border-gray-100 pl-10">
+                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Favoritos</p>
+                    <p class="text-3xl font-black text-gray-900">12</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100">
+                <h3 class="text-xl font-bold mb-6 text-gray-900 italic">Minhas Categorias Favoritas</h3>
+                <div class="max-w-[280px] mx-auto">
+                    <canvas id="userInterestsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-orange-600 p-8 rounded-[2.5rem] shadow-xl shadow-orange-100 text-white flex flex-col justify-between relative overflow-hidden">
+                <div class="relative z-10">
+                    <h3 class="text-2xl font-black mb-2">Próximo Evento</h3>
+                    <p class="text-orange-100 font-medium italic">Faltam apenas 3 dias!</p>
+                </div>
+                <div class="relative z-10 mt-8">
+                    <p class="text-3xl font-bold">Festival de Verão</p>
+                    <p class="opacity-80">Parque do Ibirapuera, SP</p>
+                </div>
+                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-orange-500 rounded-full opacity-50"></div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-black mb-8 flex items-center gap-3 text-gray-900">
+            <span>🎫</span> Meus Ingressos Ativos
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-100 flex gap-6 items-center group hover:shadow-md transition-all">
+                <div class="w-28 h-28 rounded-3xl bg-cover bg-center shadow-inner" style="background-image: url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400')"></div>
+                <div class="flex-grow">
+                    <span class="text-[10px] font-black bg-green-100 text-green-600 px-3 py-1 rounded-full uppercase tracking-tighter">Confirmado</span>
+                    <h3 class="font-black text-xl text-gray-900 group-hover:text-orange-600 transition-colors mt-2 leading-tight">Festival de Verão 2026</h3>
+                    <p class="text-sm text-gray-500 font-medium mt-1">📅 15 de Março • 18:00</p>
+                </div>
+                <button onclick="baixarIngresso()" class="p-4 bg-gray-50 rounded-2xl hover:bg-orange-600 hover:text-white transition-all text-gray-400 group-hover:scale-110">
+                    📥
+                </button>
+            </div>
+
+            <div class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-100 flex gap-6 items-center group hover:shadow-md transition-all opacity-80">
+                <div class="w-28 h-28 rounded-3xl bg-cover bg-center shadow-inner grayscale" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400')"></div>
+                <div class="flex-grow">
+                    <span class="text-[10px] font-black bg-gray-100 text-gray-400 px-3 py-1 rounded-full uppercase tracking-tighter">Aguardando</span>
+                    <h3 class="font-black text-xl text-gray-900 mt-2 leading-tight">Workshop UI/UX</h3>
+                    <p class="text-sm text-gray-500 font-medium mt-1">📅 22 de Março • 09:00</p>
+                </div>
+                <button class="p-4 bg-gray-50 rounded-2xl text-gray-300 cursor-not-allowed">
+                    ⏳
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        
+        const usuario = JSON.parse(localStorage.getItem('usuario_teste'));
+        if(usuario) {
+            document.getElementById('userNameDisplay').innerText = usuario.nome;
+            document.getElementById('orangeName').innerText = usuario.nome;
+        }
+
+        function logout() {
+            localStorage.removeItem('perfil_escolhido');
+            window.location.href = '/login';
+        }
+
+        function baixarIngresso() {
+            Swal.fire({
+                title: 'Gerando PDF...',
+                html: 'Aguarde um instante enquanto preparamos seu ingresso.',
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => { Swal.showLoading() }
+            }).then(() => {
+                Swal.fire('Pronto!', 'Seu ingresso foi enviado para o seu e-mail.', 'success');
+            });
+        }
+
+        // Gráfico de Interesses (Donut)
+        const ctx = document.getElementById('userInterestsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Música', 'Tech', 'Esportes', 'Gastronomia'],
+                datasets: [{
+                    data: [45, 25, 15, 15],
+                    backgroundColor: ['#ea580c', '#7c3aed', '#0ea5e9', '#10b981'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { weight: 'bold' } } }
+                },
+                cutout: '80%'
+            }
+        });
+    </script>
+</body>
+</html>
